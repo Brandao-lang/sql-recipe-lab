@@ -1,0 +1,60 @@
+CREATE TABLE Users (
+  user_id SERIAL PRIMARY KEY,
+  username VARCHAR(50),
+  email VARCHAR(50),
+  password VARCHAR(50)
+	)
+
+CREATE TABLE Recipe_Post (
+  post_id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES Users(user_id),
+  is_Public BOOLEAN,
+  content text
+	)
+
+CREATE TABLE Ingredients (
+  ingredient_id SERIAL PRIMARY KEY,
+  ingredient_name VARCHAR(50)
+	)
+
+CREATE TABLE Grocery (
+  grocery_id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES Users(user_id)
+	)
+
+CREATE TABLE Occasion (
+  occasion_id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES Users(user_id),
+  occasion_name VARCHAR(50)
+	)
+
+CREATE TABLE Recipe_Ingredients (
+  recipeIngredient_id SERIAL PRIMARY KEY,
+  post_id INTEGER NOT NULL REFERENCES Recipe_Post(post_id),
+  ingredient_id INTEGER NOT NULL REFERENCES Ingredients(ingredient_id)
+	)
+
+CREATE TABLE Grocery_Ingredients (
+  groceryIngredient_id SERIAL PRIMARY KEY,
+  grocery_id INTEGER NOT NULL REFERENCES Grocery(grocery_id),
+  ingredient_id INTEGER NOT NULL REFERENCES Ingredients(ingredient_id)
+	)
+
+CREATE TABLE Occasion_Recipe (
+  recipeOccasion_id SERIAL PRIMARY KEY,
+  occasion_id INTEGER NOT NULL REFERENCES Occasion(occasion_id),
+  post_id INTEGER NOT NULL REFERENCES Recipe_Post(post_id)
+	)
+
+--------------------------------
+Entering some values
+
+INSERT INTO Users (username, email, password)
+VALUES ('E-Mann', 'test@emailcom', 'cookingisfun')
+
+INSERT INTO Users (username, email, password)
+VALUES ('CookingKing', 'veryrealemail@emailcom', 'pizza')
+
+INSERT INTO Recipe_Post (user_id, is_Public, content)
+VALUES (1, true, 'step 1: poor flour into bowl step 2: cook the rest of the cake 3: eat cake')
+
